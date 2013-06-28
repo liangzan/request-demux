@@ -1,0 +1,34 @@
+*.jar
+*~
+*.class
+*.log
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# target directories for ant build
+/build/
+/dists/
+
+# other
+/out/
+/bin/
+/sandbox/
+
+# eclipse, intellij
+/.classpath
+/.project
+/src/intellij/*.iml
+/src/intellij/*.ipr
+/src/intellij/*.iws
+/.cache
+/.idea
+/.settings
+
+# bak files produced by ./cleanup-commit
+*.bak
