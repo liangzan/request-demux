@@ -1,4 +1,4 @@
-package com.example
+package com.sproutmode
 
 import unfiltered.request._
 import unfiltered.response._
@@ -32,7 +32,9 @@ class App extends unfiltered.filter.Plan {
         vw(<ul> { fails.map { f => <li>{f.error} </li> } } </ul>)
       }
   }
+
   def palindrome(s: String) = s.toLowerCase.reverse == s.toLowerCase
+
   def view(params: Map[String, Seq[String]])(body: scala.xml.NodeSeq) = {
     def p(k: String) = params.get(k).flatMap { _.headOption } getOrElse("")
     Html(
@@ -53,19 +55,5 @@ class App extends unfiltered.filter.Plan {
      </body>
     </html>
    )
-  }
-}
-
-/** embedded server */
-object Server {
-  val logger = Logger(Server.getClass)
-  def main(args: Array[String]) {
-    val http = unfiltered.jetty.Http.anylocal // this will not be necessary in 0.4.0
-    http.context("/assets") { _.resources(new java.net.URL(getClass().getResource("/www/css"), ".")) }
-      .filter(new App).run({ svr =>
-        unfiltered.util.Browser.open(http.url)
-      }, { svr =>
-        logger.info("shutting down server")
-      })
   }
 }
