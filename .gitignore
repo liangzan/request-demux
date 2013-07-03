@@ -19,6 +19,7 @@ project/plugins/project/
 /out/
 /bin/
 /sandbox/
+/tmp
 
 # eclipse, intellij
 /.classpath
