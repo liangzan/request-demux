@@ -4,10 +4,12 @@ name := "request-demux"
 
 version := "0.0.1"
 
+scalaVersion := "2.10.2"
+
 libraryDependencies ++= Seq(
   "net.databinder" %% "unfiltered-filter" % "0.6.8",
   "net.databinder" %% "unfiltered-jetty" % "0.6.8",
-  "org.clapper" %% "avsl" % "0.4",
+  "com.typesafe" %% "scalalogging-slf4j" % "1.0.1",
   "net.databinder" %% "unfiltered-spec" % "0.6.8" % "test"
 )
 
