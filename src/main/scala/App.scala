@@ -3,13 +3,11 @@ package com.sproutmode
 import unfiltered.request._
 import unfiltered.response._
 
-import org.clapper.avsl.Logger
+import com.typesafe.scalalogging.slf4j._
 
 /** unfiltered plan */
-class App extends unfiltered.filter.Plan {
+class App extends unfiltered.filter.Plan with Logging {
   import QParams._
-
-  val logger = Logger(classOf[App])
 
   def intent = {
     case GET(Path(p)) =>
@@ -17,7 +15,7 @@ class App extends unfiltered.filter.Plan {
       Ok ~> ResponseString("ok")
 
     case POST(Path(p) & Params(params)) =>
-      logger.info("POST %s" format p)
+      logger.info("POST %s [%s]" format (p, params))
       Ok ~> ResponseString("ok")
 
     case _ => Pass
