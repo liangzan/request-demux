@@ -12,6 +12,8 @@ import com.typesafe.scalalogging.slf4j._
 class App extends unfiltered.filter.Plan with Logging {
   import QParams._
 
+  val urlList: List[String] = List("http://127.0.0.1:3501/bongo", "http://127.0.0.1:3502/hongo")
+
   def intent = {
     case GET(Path(p)) =>
       logger.info("GET %s" format p)
@@ -19,14 +21,18 @@ class App extends unfiltered.filter.Plan with Logging {
 
     case POST(Path(p) & Params(params)) =>
       logger.info("POST %s [%s]" format (p, params))
-      subscriberRequest(params)
+      broadcastRequest(params)
       Ok ~> ResponseString("ok")
 
     case _ => Pass
   }
 
-  def subscriberUrl = url("http://127.0.0.1:3501/bongo")
-  def subscriberRequest(params: Map[String, Seq[String]]) {
-    Http(subscriberUrl << params.mapValues(_.mkString))
+  def subscriberRequest(destUrl: String, params: Map[String, Seq[String]]) {
+    Http(url(destUrl) << params.mapValues(_.mkString))
+  }
+
+  def broadcastRequest(params: Map[String, Seq[String]]) {
+    for (url <- urlList)
+      subscriberRequest(url, params)
   }
 }
