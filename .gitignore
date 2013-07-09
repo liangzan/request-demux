@@ -33,3 +33,6 @@ project/plugins/project/
 
 # bak files produced by ./cleanup-commit
 *.bak
+
+# project specific
+application.conf
