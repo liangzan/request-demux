@@ -7,12 +7,14 @@ import dispatch._
 import Defaults._
 
 import com.typesafe.scalalogging.slf4j._
+import com.typesafe.config._
+import scala.collection.JavaConverters._
 
 /** unfiltered plan */
 class App extends unfiltered.filter.Plan with Logging {
   import QParams._
 
-  val urlList: List[String] = List("http://127.0.0.1:3501/bongo", "http://127.0.0.1:3502/hongo")
+  val conf = ConfigFactory.load()
 
   def intent = {
     case GET(Path(p)) =>
@@ -32,6 +34,7 @@ class App extends unfiltered.filter.Plan with Logging {
   }
 
   def broadcastRequest(params: Map[String, Seq[String]]) {
+    val urlList = conf.getStringList("demux.urls").asScala
     for (url <- urlList)
       subscriberRequest(url, params)
   }
