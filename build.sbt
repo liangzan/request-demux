@@ -1,3 +1,7 @@
+import AssemblyKeys._
+
+assemblySettings
+
 organization := "com.sproutmode"
 
 name := "request-demux"
@@ -21,4 +25,17 @@ resolvers ++= Seq(
 
 initialize ~= { _ =>
   System.setProperty("org.slf4j.simpleLogger.logFile", "log/demux.log")
+}
+
+jarName in assembly := "demux.jar"
+
+test in assembly := {}
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+  {
+    case PathList("javax", "servlet", xs @ _*) => MergeStrategy.first
+    case "application.conf" => MergeStrategy.concat
+    case "about.html"     => MergeStrategy.discard
+    case x => old(x)
+  }
 }
